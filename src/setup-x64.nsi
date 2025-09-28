@@ -2,11 +2,12 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-# NSIS script for Sync Clippings Helper App setup for 32-bit Windows
+# NSIS script for Sync Clippings Helper App setup for Windows
 
 # --------------------------------
 # Include header files
 
+  !include "x64.nsh"
   !include "MUI2.nsh"
   !include "WordFunc.nsh"
   !include "ZipDLL.nsh"
@@ -19,10 +20,10 @@
 
   # Name and file
   Name "${APPNAME}"
-  OutFile "SyncClippings-${APPVER}-setup-win32.exe"
+  OutFile "SyncClippings-${APPVER}-setup.exe"
 
   # Default installation folder
-  InstallDir "$PROGRAMFILES\Sync Clippings"
+  InstallDir "$PROGRAMFILES64\Sync Clippings"
 
   # Get installation folder from registry if available
   InstallDirRegKey HKEY_CURRENT_USER "Software\AE Creations\Sync Clippings" ""
@@ -31,12 +32,12 @@
   RequestExecutionLevel admin # Require admin rights on NT6+ (When UAC is turned on)
 
   # Version information
-  VIAddVersionKey /LANG=0 "ProductName" "Sync Clippings Helper (32-bit)"
+  VIAddVersionKey /LANG=0 "ProductName" "Sync Clippings Helper (64-bit)"
   VIAddVersionKey /LANG=0 "ProductVersion" "2.0"
   VIAddVersionKey /LANG=0 "CompanyName" "AE Creations"
   VIAddVersionKey /LANG=0 "FileDescription" "Sync Clippings Helper Setup"
   VIAddVersionKey /LANG=0 "InternalName" "SyncClippings-${APPVER}-setup"
-  VIAddVersionKey /LANG=0 "OriginalFilename" "setup-win32.nsi"
+  VIAddVersionKey /LANG=0 "OriginalFilename" "setup-x64.nsi"
   VIAddVersionKey /LANG=0 "FileVersion" "2.0"
   VIAddVersionKey /LANG=0 "PrivateBuild" ""
   VIAddVersionKey /LANG=0 "SpecialBuild" ""
@@ -44,13 +45,13 @@
   VIAddVersionKey /LANG=0 "LegalTrademarks" ""
   VIAddVersionKey /LANG=0 "Comments" ""
   VIProductVersion 2.0.0.0
-  
+
 # --------------------------------
 # Interface Settings
 
   # Support for hi-res displays
   ManifestDPIAware true
-
+  
   !define MUI_ABORTWARNING
   !define MUI_ICON "setup.ico"
   !define MUI_HEADERIMAGE
@@ -99,6 +100,7 @@ Section "Install"
   ${WordReplace} $0 "#" "\\" "+" $0
 
   File "syncClippings.zip"
+
   !insertmacro ZIPDLL_EXTRACT "syncClippings.zip" "$INSTDIR" "<ALL>"
 
   # Generate the native app manifest file.
@@ -127,6 +129,7 @@ Section "Install"
 
   File "syncClippings.ico"
 
+  SetRegView 64
   WriteRegStr HKEY_CURRENT_USER "Software\Mozilla\NativeMessagingHosts\syncClippings" "" "$INSTDIR\syncClippings.json"
 
   # Store installation folder
@@ -143,9 +146,9 @@ Section "Install"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "DisplayIcon" "$\"$INSTDIR\syncClippings.ico$\""
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "Publisher" "AE Creations"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "HelpLink" "https://aecreations.io/clippings/sync.php"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "URLInfoAbout" "https://aecreations.io/clippings/sync.php"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "URLInfoAbout" "https://aecreations.io/clippings/"
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "EstimatedSize" 19968  # KiB
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "DisplayVersion" "${APPVER}"
-  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "EstimatedSize" 22323  # KiB
   WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "VersionMajor" 1
   WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "VersionMinor" 0
   
@@ -166,12 +169,13 @@ Section "Uninstall"
   RMDir /r $INSTDIR\tcl
   RMDir /r $INSTDIR\tcl8
   RMDir /r $INSTDIR\tk
-
+  
   Delete $INSTDIR\*
   RMDir $INSTDIR
   Delete "$LOCALAPPDATA\Sync Clippings\*"
   RMDir "$LOCALAPPDATA\Sync Clippings"
 
+  SetRegView 64
   DeleteRegKey HKEY_CURRENT_USER "Software\Mozilla\NativeMessagingHosts\syncClippings"
   DeleteRegKey /ifempty HKCU "Software\AE Creations\Sync Clippings"
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper"
