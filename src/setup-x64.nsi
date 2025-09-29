@@ -28,6 +28,11 @@
   # Get installation folder from registry if available
   InstallDirRegKey HKEY_CURRENT_USER "Software\AE Creations\Sync Clippings" ""
 
+  # Determine if user is Administrator
+  UserInfo::GetAccountType
+  Pop $8
+  StrCmp $8 "Admin" +1 +2
+
   # Request application privileges 
   RequestExecutionLevel admin # Require admin rights on NT6+ (When UAC is turned on)
 
@@ -38,7 +43,7 @@
   VIAddVersionKey /LANG=0 "FileDescription" "Sync Clippings Helper Setup"
   VIAddVersionKey /LANG=0 "InternalName" "SyncClippings-${APPVER}-setup"
   VIAddVersionKey /LANG=0 "OriginalFilename" "setup-x64.nsi"
-  VIAddVersionKey /LANG=0 "FileVersion" "2.0"
+  VIAddVersionKey /LANG=0 "FileVersion" "2.0.1"
   VIAddVersionKey /LANG=0 "PrivateBuild" ""
   VIAddVersionKey /LANG=0 "SpecialBuild" ""
   VIAddVersionKey /LANG=0 "LegalCopyright" ""
@@ -139,22 +144,26 @@ Section "Install"
   WriteUninstaller "$INSTDIR\Uninstall.exe"
 
   # Registry information for add/remove programs
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "DisplayName" "Sync Clippings Helper App"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "UninstallString" "$\"$INSTDIR\uninstall.exe$\""
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "QuietUninstallString" "$\"$INSTDIR\uninstall.exe$\" /S"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "InstallLocation" "$\"$INSTDIR$\""
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "DisplayIcon" "$\"$INSTDIR\syncClippings.ico$\""
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "Publisher" "AE Creations"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "HelpLink" "https://aecreations.io/clippings/sync.php"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "URLInfoAbout" "https://aecreations.io/clippings/"
-  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "EstimatedSize" 19968  # KiB
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "DisplayVersion" "${APPVER}"
-  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "VersionMajor" 1
-  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "VersionMinor" 0
+  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "DisplayName" "Sync Clippings Helper App"
+  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "UninstallString" "$\"$INSTDIR\uninstall.exe$\""
+  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "QuietUninstallString" "$\"$INSTDIR\uninstall.exe$\" /S"
+  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "InstallLocation" "$\"$INSTDIR$\""
+  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "DisplayIcon" "$\"$INSTDIR\syncClippings.ico$\""
+  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "Publisher" "AE Creations"
+  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "HelpLink" "https://aecreations.io/clippings/sync.php"
+  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "URLInfoAbout" "https://aecreations.io/clippings/"
+  WriteRegDWORD HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "EstimatedSize" 19968  # KiB
+  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "DisplayVersion" "${APPVER}"
+  WriteRegDWORD HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "VersionMajor" 1
+  WriteRegDWORD HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "VersionMinor" 0
   
   # There is no option for modifying or repairing the install
-  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "NoModify" 1
-  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "NoRepair" 1
+  WriteRegDWORD HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "NoModify" 1
+  WriteRegDWORD HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "NoRepair" 1
+
+  # Previous versions of setup placed uninstall info to HKEY_LOCAL_MACHINE.
+  StrCmp $8 "Admin" +1 +2
+  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper"
 
   # Cleanup
   Delete $INSTDIR\syncClippings.zip
@@ -178,8 +187,12 @@ Section "Uninstall"
   SetRegView 64
   DeleteRegKey HKEY_CURRENT_USER "Software\Mozilla\NativeMessagingHosts\syncClippings"
   DeleteRegKey /ifempty HKCU "Software\AE Creations\Sync Clippings"
-  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper"
+  DeleteRegKey HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper"
 
+  # Previous versions of setup placed uninstall info to HKEY_LOCAL_MACHINE.
+  StrCmp $8 "Admin" +1
+  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper"
+    
 SectionEnd
 
 # EOF
