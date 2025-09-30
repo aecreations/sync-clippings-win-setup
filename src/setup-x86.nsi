@@ -25,7 +25,7 @@
   InstallDir "$PROGRAMFILES\Sync Clippings"
 
   # Get installation folder from registry if available
-  InstallDirRegKey HKEY_CURRENT_USER "Software\AE Creations\Sync Clippings" ""
+  InstallDirRegKey HKEY_LOCAL_MACHINE "Software\AE Creations\Sync Clippings" ""
 
   # Request application privileges 
   RequestExecutionLevel admin # Require admin rights on NT6+ (When UAC is turned on)
@@ -127,14 +127,15 @@ Section "Install"
 
   File "syncClippings.ico"
 
-  # Delete registry key added by previous versions of setup.
+  # Delete registry keys added by previous versions of setup.
   DeleteRegKey HKEY_CURRENT_USER "Software\Mozilla\NativeMessagingHosts\syncClippings"
+  DeleteRegKey HKEY_CURRENT_USER "Software\AE Creations\Sync Clippings"
 
   # Register Sync Clippings Helper with Firefox and Thunderbird.
   WriteRegStr HKEY_LOCAL_MACHINE "Software\Mozilla\NativeMessagingHosts\syncClippings" "" "$INSTDIR\syncClippings.json"
 
   # Store installation folder
-  WriteRegStr HKEY_CURRENT_USER "Software\AE Creations\Sync Clippings" "" $INSTDIR
+  WriteRegStr HKEY_LOCAL_MACHINE "Software\AE Creations\Sync Clippings" "" $INSTDIR
 
   # Create uninstaller
   WriteUninstaller "$INSTDIR\Uninstall.exe"
@@ -177,7 +178,7 @@ Section "Uninstall"
   RMDir "$LOCALAPPDATA\Sync Clippings"
 
   DeleteRegKey HKEY_LOCAL_MACHINE "Software\Mozilla\NativeMessagingHosts\syncClippings"
-  DeleteRegKey /ifempty HKCU "Software\AE Creations\Sync Clippings"
+  DeleteRegKey HKLM "Software\AE Creations\Sync Clippings"
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper"
 
 SectionEnd
