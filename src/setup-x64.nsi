@@ -38,7 +38,7 @@
   VIAddVersionKey /LANG=0 "FileDescription" "Sync Clippings Helper Setup"
   VIAddVersionKey /LANG=0 "InternalName" "SyncClippings-${APPVER}-setup"
   VIAddVersionKey /LANG=0 "OriginalFilename" "setup-x64.nsi"
-  VIAddVersionKey /LANG=0 "FileVersion" "2.0"
+  VIAddVersionKey /LANG=0 "FileVersion" "2.0.1"
   VIAddVersionKey /LANG=0 "PrivateBuild" ""
   VIAddVersionKey /LANG=0 "SpecialBuild" ""
   VIAddVersionKey /LANG=0 "LegalCopyright" ""
@@ -130,7 +130,7 @@ Section "Install"
   File "syncClippings.ico"
 
   SetRegView 64
-  WriteRegStr HKEY_CURRENT_USER "Software\Mozilla\NativeMessagingHosts\syncClippings" "" "$INSTDIR\syncClippings.json"
+  WriteRegStr HKEY_LOCAL_MACHINE "Software\Mozilla\NativeMessagingHosts\syncClippings" "" "$INSTDIR\syncClippings.json"
 
   # Store installation folder
   WriteRegStr HKEY_CURRENT_USER "Software\AE Creations\Sync Clippings" "" $INSTDIR
