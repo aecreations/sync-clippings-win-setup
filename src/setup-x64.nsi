@@ -133,6 +133,7 @@ Section "Install"
   # Delete registry key added by previous versions of setup.
   DeleteRegKey HKEY_CURRENT_USER "Software\Mozilla\NativeMessagingHosts\syncClippings"
 
+  # Register Sync Clippings Helper with Firefox and Thunderbird.
   WriteRegStr HKEY_LOCAL_MACHINE "Software\Mozilla\NativeMessagingHosts\syncClippings" "" "$INSTDIR\syncClippings.json"
 
   # Store installation folder
