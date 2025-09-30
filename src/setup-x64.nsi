@@ -176,7 +176,11 @@ Section "Uninstall"
   RMDir "$LOCALAPPDATA\Sync Clippings"
 
   SetRegView 64
+  DeleteRegKey HKEY_LOCAL_MACHINE "Software\Mozilla\NativeMessagingHosts\syncClippings"
+
+  # Delete registry key added by previous versions of setup.
   DeleteRegKey HKEY_CURRENT_USER "Software\Mozilla\NativeMessagingHosts\syncClippings"
+  
   DeleteRegKey /ifempty HKCU "Software\AE Creations\Sync Clippings"
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper"
 
