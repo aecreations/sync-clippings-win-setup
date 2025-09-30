@@ -16,7 +16,7 @@
 # General
 
   !define APPNAME "Sync Clippings Helper"
-  !define APPVER "2.0.1a0+"
+  !define APPVER "2.0.1b1"
 
   # Name and file
   Name "${APPNAME}"
@@ -33,7 +33,7 @@
 
   # Version information
   VIAddVersionKey /LANG=0 "ProductName" "Sync Clippings Helper (64-bit)"
-  VIAddVersionKey /LANG=0 "ProductVersion" "2.0"
+  VIAddVersionKey /LANG=0 "ProductVersion" "2.0.1"
   VIAddVersionKey /LANG=0 "CompanyName" "AE Creations"
   VIAddVersionKey /LANG=0 "FileDescription" "Sync Clippings Helper Setup"
   VIAddVersionKey /LANG=0 "InternalName" "SyncClippings-${APPVER}-setup"
@@ -44,7 +44,7 @@
   VIAddVersionKey /LANG=0 "LegalCopyright" ""
   VIAddVersionKey /LANG=0 "LegalTrademarks" ""
   VIAddVersionKey /LANG=0 "Comments" ""
-  VIProductVersion 2.0.0.0
+  VIProductVersion 2.0.1.0
 
 # --------------------------------
 # Interface Settings
