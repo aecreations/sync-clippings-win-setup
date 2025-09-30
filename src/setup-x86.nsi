@@ -15,7 +15,7 @@
 # General
 
   !define APPNAME "Sync Clippings Helper"
-  !define APPVER "2.0"
+  !define APPVER "2.0.1a0+"
 
   # Name and file
   Name "${APPNAME}"
@@ -32,18 +32,18 @@
 
   # Version information
   VIAddVersionKey /LANG=0 "ProductName" "Sync Clippings Helper (32-bit)"
-  VIAddVersionKey /LANG=0 "ProductVersion" "2.0"
+  VIAddVersionKey /LANG=0 "ProductVersion" "2.0.1"
   VIAddVersionKey /LANG=0 "CompanyName" "AE Creations"
   VIAddVersionKey /LANG=0 "FileDescription" "Sync Clippings Helper Setup"
   VIAddVersionKey /LANG=0 "InternalName" "SyncClippings-${APPVER}-setup"
   VIAddVersionKey /LANG=0 "OriginalFilename" "setup-x86.nsi"
-  VIAddVersionKey /LANG=0 "FileVersion" "2.0"
+  VIAddVersionKey /LANG=0 "FileVersion" "2.0.1"
   VIAddVersionKey /LANG=0 "PrivateBuild" ""
   VIAddVersionKey /LANG=0 "SpecialBuild" ""
   VIAddVersionKey /LANG=0 "LegalCopyright" ""
   VIAddVersionKey /LANG=0 "LegalTrademarks" ""
   VIAddVersionKey /LANG=0 "Comments" ""
-  VIProductVersion 2.0.0.0
+  VIProductVersion 2.0.1.0
   
 # --------------------------------
 # Interface Settings
@@ -127,7 +127,11 @@ Section "Install"
 
   File "syncClippings.ico"
 
-  WriteRegStr HKEY_CURRENT_USER "Software\Mozilla\NativeMessagingHosts\syncClippings" "" "$INSTDIR\syncClippings.json"
+  # Delete registry key added by previous versions of setup.
+  DeleteRegKey HKEY_CURRENT_USER "Software\Mozilla\NativeMessagingHosts\syncClippings"
+
+  # Register Sync Clippings Helper with Firefox and Thunderbird.
+  WriteRegStr HKEY_LOCAL_MACHINE "Software\Mozilla\NativeMessagingHosts\syncClippings" "" "$INSTDIR\syncClippings.json"
 
   # Store installation folder
   WriteRegStr HKEY_CURRENT_USER "Software\AE Creations\Sync Clippings" "" $INSTDIR
@@ -172,7 +176,7 @@ Section "Uninstall"
   Delete "$LOCALAPPDATA\Sync Clippings\*"
   RMDir "$LOCALAPPDATA\Sync Clippings"
 
-  DeleteRegKey HKEY_CURRENT_USER "Software\Mozilla\NativeMessagingHosts\syncClippings"
+  DeleteRegKey HKEY_LOCAL_MACHINE "Software\Mozilla\NativeMessagingHosts\syncClippings"
   DeleteRegKey /ifempty HKCU "Software\AE Creations\Sync Clippings"
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper"
 
