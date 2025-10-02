@@ -132,7 +132,8 @@ Section "Install"
   SetRegView 64
   # Delete registry keys added by previous versions of setup.
   DeleteRegKey HKEY_CURRENT_USER "Software\Mozilla\NativeMessagingHosts\syncClippings"
-  DeleteRegKey HKEY_CURRENT_USER "Software\AE Creations\Sync Clippings"
+  DeleteRegKey HKCU "Software\AE Creations\Sync Clippings"
+  DeleteRegKey HKCU "Software\AE Creations"
 
   # Register Sync Clippings Helper with Firefox and Thunderbird.
   WriteRegStr HKEY_LOCAL_MACHINE "Software\Mozilla\NativeMessagingHosts\syncClippings" "" "$INSTDIR\syncClippings.json"
@@ -183,6 +184,7 @@ Section "Uninstall"
   SetRegView 64
   DeleteRegKey HKEY_LOCAL_MACHINE "Software\Mozilla\NativeMessagingHosts\syncClippings"
   DeleteRegKey HKLM "Software\AE Creations\Sync Clippings"
+  DeleteRegKey /ifempty HKLM "Software\AE Creations"
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper"
 
 SectionEnd
