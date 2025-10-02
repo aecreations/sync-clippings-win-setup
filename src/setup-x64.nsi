@@ -20,7 +20,7 @@
 
   # Name and file
   Name "${APPNAME}"
-  OutFile "SyncClippings-${APPVER}-setup.exe"
+  OutFile "SyncClippings-${APPVER}-setup-x64.exe"
 
   # Default installation folder
   InstallDir "$PROGRAMFILES64\Sync Clippings"

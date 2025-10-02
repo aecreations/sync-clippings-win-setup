@@ -19,7 +19,7 @@
 
   # Name and file
   Name "${APPNAME}"
-  OutFile "SyncClippings-${APPVER}-setup-win32.exe"
+  OutFile "SyncClippings-${APPVER}-setup-x86.exe"
 
   # Default installation folder
   InstallDir "$PROGRAMFILES\Sync Clippings"
