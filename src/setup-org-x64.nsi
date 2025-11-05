@@ -15,7 +15,7 @@
 # --------------------------------
 # General
 
-  !define APPNAME "Sync Clippings Helper for Organizations"
+  !define APPNAME "Sync Clippings Helper"
   !define APPVER "2.0.1b1+"
 
   # Name and file
@@ -64,6 +64,8 @@
 
 # --------------------------------
 # Custom UI text
+
+  !define MUI_WELCOMEPAGE_TITLE "Welcome to Sync Clippings Helper for Organizations"
 
   !define MUI_WELCOMEPAGE_TEXT "The Sync Clippings Helper application works quietly in the background to keep your synced clippings updated between Firefox and Thunderbird, or other instances of those applications.$\r$\n$\r$\nSetup will guide you through the installation of the Sync Clippings Helper App.  Click Next to continue."
 
