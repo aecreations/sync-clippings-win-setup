@@ -16,7 +16,7 @@
 # General
 
   !define APPNAME "Sync Clippings Helper"
-  !define APPVER "2.0.1b1+"
+  !define APPVER "2.0.1"
 
   # Name and file
   Name "${APPNAME}"
@@ -37,7 +37,7 @@
   VIAddVersionKey /LANG=0 "CompanyName" "AE Creations"
   VIAddVersionKey /LANG=0 "FileDescription" "Sync Clippings Helper Setup"
   VIAddVersionKey /LANG=0 "InternalName" "SyncClippings-${APPVER}-org-setup-x64"
-  VIAddVersionKey /LANG=0 "OriginalFilename" "setup-x64.nsi"
+  VIAddVersionKey /LANG=0 "OriginalFilename" "setup-org-x64.nsi"
   VIAddVersionKey /LANG=0 "FileVersion" "2.0.1"
   VIAddVersionKey /LANG=0 "PrivateBuild" ""
   VIAddVersionKey /LANG=0 "SpecialBuild" ""
@@ -154,7 +154,7 @@ Section "Install"
   WriteUninstaller "$INSTDIR\Uninstall.exe"
 
   # Registry information for add/remove programs
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "DisplayName" "Sync Clippings Helper App"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "DisplayName" "Sync Clippings Helper"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "UninstallString" "$\"$INSTDIR\uninstall.exe$\""
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "QuietUninstallString" "$\"$INSTDIR\uninstall.exe$\" /S"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Sync Clippings Helper" "InstallLocation" "$\"$INSTDIR$\""
