@@ -60,6 +60,7 @@
   !define MUI_UNICON "setup.ico"
   !define MUI_HEADERIMAGE_UNBITMAP "header.bmp"
   !define MUI_WELCOMEFINISHPAGE_BITMAP "welcome.bmp"
+  !define MUI_LICENSEPAGE_RADIOBUTTONS
   BrandingText " "
 
 # --------------------------------
