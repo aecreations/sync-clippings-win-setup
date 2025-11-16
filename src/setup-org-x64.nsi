@@ -2,7 +2,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-# NSIS script for Sync Clippings Helper App setup for Windows
+# NSIS script for Sync Clippings Helper Org Edition setup for Windows
 
 # --------------------------------
 # Include header files
