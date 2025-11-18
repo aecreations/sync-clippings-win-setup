@@ -12,4 +12,7 @@ freely available under the terms of the Mozilla Public License, all other aspect
 the project - including downloading releases and opening or commenting on issues - require [adherence to the
 Maintenance Fee](./OSMFEULA.txt).
 
+In short, if you use this project to generate revenue, the [Maintenance
+Fee is required](./OSMFEULA.txt).
+
 To pay the Maintenance Fee, [become a Sponsor](https://github.com/sponsors/aecreations).
